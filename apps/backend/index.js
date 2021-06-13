@@ -89,6 +89,7 @@ app.get('/tasks/:task', function (req, res) {
 
 // Run result
 app.get('/results/:task', function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*")
   if (req.params.task in tasks){
     const data = fs.readFileSync(`${process.env.INSPEC_DATA_PATH}/results/${req.params.task}.json`)
     res.json(JSON.parse(data))
