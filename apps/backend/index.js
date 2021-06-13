@@ -23,21 +23,24 @@ sequelize.sync().then(() => {
 
 // Web handling
 const app = express()
-const port = 3000
+const port = 3001
 
 // Profiles
 app.get('/profiles', function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*")
   Profile.findAll().then(profiles => res.json(profiles))
 })
 
 app.get('/profiles/add', (req, res) => {
-  const repo = req.query.repo
-  const name = req.query.repo.split('/').splice(-1)[0]
-  exec(`git clone ${repo} ${process.env.INSPEC_DATA_PATH}/profiles/${name}`, (err, stdout, stderr) => {
+  res.header("Access-Control-Allow-Origin", "*")
+  const repository = req.query.repository
+  console.log(repository)
+  const name = repository.split('/').splice(-1)[0]
+  exec(`git clone ${repository} ${process.env.INSPEC_DATA_PATH}/profiles/${name}`, (err, stdout, stderr) => {
     if (err) {
       res.json(err)
     } else {
-      Profile.create({ name: name, repo: repo, path: `${process.env.INSPEC_DATA_PATH}/profiles/${name}` })
+      Profile.create({ filename: name, repo: repository, path: `${process.env.INSPEC_DATA_PATH}/profiles/${name}` })
       res.status(200)
       res.json({ ok: true })
     }
@@ -46,6 +49,7 @@ app.get('/profiles/add', (req, res) => {
 
 // Run profile
 app.get('/run/:profile', function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*")
   Profile.findAll({ where: { id: req.params.profile } }).then(profiles => {
     const profile = profiles[0]
     const target = req.query.target
@@ -84,11 +88,13 @@ app.get('/run/:profile', function (req, res) {
 
 // Task status
 app.get('/tasks/:task', function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*")
   res.json(tasks[req.params.task])
 })
 
 // Run result
 app.get('/results/:task', function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*")
   if (req.params.task in tasks){
     const data = fs.readFileSync(`${process.env.INSPEC_DATA_PATH}/results/${req.params.task}.json`)
     res.json(JSON.parse(data))
