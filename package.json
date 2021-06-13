@@ -1,0 +1,26 @@
+{
+  "name": "webspec",
+  "version": "1.0.0",
+  "description": "Web tool to run InSpec profiles against targets.",
+  "main": "index.js",
+  "scripts": {
+    "backend": "yarn workspace webspec-backend",
+    "start": "yarn workspace webspec-backend start"
+  },
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "author": "Camden Moors",
+  "license": "ISC",
+  "dependencies": {
+    "webspec-backend": "1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0"
+  }
+}

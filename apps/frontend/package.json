@@ -1,0 +1,9 @@
+{
+    "name": "webspec-frontend",
+    "version": "1.0.0",
+  
+    "dependencies": {
+      "cross-env": "5.0.5",
+      "webspec-backend": "1.0.0"
+    }
+}
