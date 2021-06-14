@@ -1,21 +1,28 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col>
-      <v-card>
-        <v-card-title class="headline">
-          <v-row justify="space-between">
-            <span class="pl-2"> Currently Installed Profiles </span>
-            <AddProfileModal @addProfile="updateProfiles" />
-          </v-row>
-        </v-card-title>
-        <v-card-text>
-          <div>
-            <ProfileList :profiles="profiles" />
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
+  <v-card>
+    <v-card-title class="headline">
+      <AddProfileModal
+        :visible="showAddProfileModal"
+        @addProfile="updateProfiles"
+        @close="showAddProfileModal = false"
+      />
+      <v-row justify="space-between">
+        <span class="pl-2"> Currently Installed Profiles </span>
+        <v-icon
+          title="Add Profile"
+          class="mr-2"
+          @click="showAddProfileModal = true"
+        >
+          mdi-plus
+        </v-icon>
+      </v-row>
+    </v-card-title>
+    <v-card-text>
+      <div>
+        <ProfileList :profiles="profiles" />
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -33,6 +40,7 @@ import AddProfileModal from '~/components/Modals/AddProfile.vue'
 export default class Index extends Vue {
   baseURL = 'http://127.0.0.1:3001'
   profiles: Profile[] = []
+  showAddProfileModal = false
 
   mounted() {
     this.updateProfiles()

@@ -2,7 +2,22 @@
   <div>
     <v-data-table :headers="headers" :items="profiles">
       <template #[`item.actions`]="{ item }">
-        <RunProfileModal :profile="item"> </RunProfileModal>
+        <v-icon
+          small
+          title="Run"
+          class="mr-2"
+          @click="showRunProfileModal = true"
+        >
+          mdi-play
+        </v-icon>
+        <v-icon small title="Update" class="mr-2"> mdi-refresh </v-icon>
+        <v-icon small title="Delete" class="mr-2"> mdi-delete </v-icon>
+        <RunProfileModal
+          :visible="showRunProfileModal"
+          :profile="item"
+          @close="showRunProfileModal = false"
+        >
+        </RunProfileModal>
       </template>
     </v-data-table>
   </div>
@@ -30,9 +45,11 @@ export type Profile = {
 export default class ProfileList extends Vue {
   @Prop() profiles?: Profile[]
 
+  showRunProfileModal = false
+
   headers = [
     {
-      text: 'Filename',
+      text: 'Profile Name',
       align: 'start',
       value: 'filename',
     },

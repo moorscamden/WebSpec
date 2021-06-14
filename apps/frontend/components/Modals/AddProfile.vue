@@ -1,5 +1,5 @@
 <template>
-  <v-dialog max-width="700px">
+  <Modal :visible="visible" :persistent="true" max-width="700px">
     <template #activator="{ on }">
       <v-btn v-on="on">+</v-btn>
     </template>
@@ -13,30 +13,39 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="blue darken-1" text @click="$emit('cancel')"
-          >Cancel</v-btn
-        >
+        <v-btn color="blue darken-1" text @click="$emit('close')">Cancel</v-btn>
         <v-btn color="blue darken-1" @click="addProfile">Add</v-btn>
       </v-card-actions>
     </v-card>
-  </v-dialog>
+  </Modal>
 </template>
 <script lang="ts">
 import Component from 'vue-class-component'
 import Vue from 'vue'
+import { Prop } from 'vue-property-decorator'
+import Modal from '~/components/Modals/Modal.vue'
 
-@Component({})
+@Component({
+  components: {
+    Modal,
+  },
+})
 export default class AddProfileModal extends Vue {
   baseURL = 'http://127.0.0.1:3001'
   repository = ''
+  @Prop({ default: false }) readonly visible!: boolean
 
   addProfile() {
-    this.$axios.get(`${this.baseURL}/profiles/add`, {
-      params: {
-        repository: this.repository,
-      },
-    })
-    this.$emit('addProfile')
+    this.$axios
+      .get(`${this.baseURL}/profiles/add`, {
+        params: {
+          repository: this.repository,
+        },
+      })
+      .then(() => {
+        this.$emit('addProfile')
+        this.$emit('close')
+      })
   }
 }
 </script>

@@ -47,18 +47,38 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Profiles',
+          title: 'Installed Profiles',
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-plus',
+          title: 'Public Profiles',
+          to: '/public',
+        },
+        {
+          icon: 'mdi-history',
           title: 'Results',
           to: '/results',
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Identities',
+          to: '/identities',
         },
         {
           icon: 'mdi-server-network',
           title: 'Targets',
           to: '/targets',
+        },
+        {
+          icon: 'mdi-text-box-multiple-outline',
+          title: 'Inputs',
+          to: '/inputs',
+        },
+        {
+          icon: 'mdi-clock',
+          title: 'Scheduled Scans',
+          to: '/schedule',
         },
       ],
       miniVariant: true,
